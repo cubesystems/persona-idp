@@ -105,7 +105,7 @@ pub async fn authorize(
     match &app.upstream {
         Some(upstream) => {
             let (url, binding) = upstream.authorization_url(&app.sealer, request)?;
-            let cookie = binding_cookie(&app, &binding, FLOW_LIFETIME.as_secs());
+            let cookie = binding_cookie(&app.issuer, &binding, FLOW_LIFETIME.as_secs());
             Ok(([(header::SET_COOKIE, cookie)], Redirect::to(&url)).into_response())
         }
         None => picker_page(&app, request, LOCAL_IDENTITY).await,
@@ -156,7 +156,7 @@ pub async fn callback(
     let mut response = picker_page(&app, state.request, &signed_in_as).await?;
     response.headers_mut().insert(
         header::SET_COOKIE,
-        binding_cookie(&app, "", 0)
+        binding_cookie(&app.issuer, "", 0)
             .parse()
             .map_err(|_| PersonaIdpError::Internal("invalid cookie".to_string()))?,
     );
@@ -164,15 +164,16 @@ pub async fn callback(
 }
 
 /// The cookie that ties an upstream sign-in to the browser that started it. It is only
-/// sent to `/callback`, and `Lax` lets it ride along when the upstream redirects back.
-fn binding_cookie(app: &PersonaIdpState, value: &str, max_age: u64) -> String {
-    let secure = if app.issuer.starts_with("https://") {
+/// sent to the issuer's `/callback`, and `Lax` lets it ride along when the upstream redirects back.
+pub fn binding_cookie(issuer: &str, value: &str, max_age: u64) -> String {
+    let secure = if issuer.starts_with("https://") {
         "; Secure"
     } else {
         ""
     };
+    let path = PersonaIdpState::path_prefix(issuer);
     format!(
-        "{BINDING_COOKIE}={value}; Path=/callback; Max-Age={max_age}; HttpOnly; SameSite=Lax{secure}"
+        "{BINDING_COOKIE}={value}; Path={path}/callback; Max-Age={max_age}; HttpOnly; SameSite=Lax{secure}"
     )
 }
 

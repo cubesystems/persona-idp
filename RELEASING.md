@@ -18,6 +18,6 @@ Pushes and pull requests run formatting, lint, tests, `cargo audit` and a contai
 | --- | --- |
 | Branch `master` | `master` |
 | Branch `feature/example` | `feature-example` |
-| Tag `v1.0.0` | `v1.0.0` |
+| Tag `v1.0.1` | `v1.0.1` |
 
 Only branch and Git tag names are published. Tags starting with `v` must match `version` in `Cargo.toml`.
