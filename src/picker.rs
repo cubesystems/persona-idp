@@ -20,11 +20,15 @@ pub fn render(action: &str, flow: &str, signed_in_as: &str, personas: &[Persona]
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Test sign-in</title>
 <style>
-body{{font-family:system-ui,sans-serif;max-width:32rem;margin:3rem auto;padding:0 1rem}}
+:root{{color-scheme:light dark;--background:#fff;--foreground:#000;--button-background:#fff;--button-hover:#f3f3f3;--border:#bbb;--muted:#555}}
+@media (prefers-color-scheme: dark){{
+    :root{{--background:#121212;--foreground:#eee;--button-background:#1e1e1e;--button-hover:#2a2a2a;--border:#666;--muted:#bbb}}
+}}
+body{{font-family:system-ui,sans-serif;max-width:32rem;margin:3rem auto;padding:0 1rem;background:var(--background);color:var(--foreground)}}
 form{{display:grid;gap:.5rem}}
-button{{display:grid;text-align:left;padding:.75rem 1rem;border:1px solid #bbb;border-radius:.5rem;background:#fff;font:inherit;cursor:pointer}}
-button:hover{{background:#f3f3f3}}
-span{{color:#555;font-size:.9rem}}
+button{{display:grid;text-align:left;padding:.75rem 1rem;border:1px solid var(--border);border-radius:.5rem;background:var(--button-background);color:inherit;font:inherit;cursor:pointer}}
+button:hover{{background:var(--button-hover)}}
+span{{color:var(--muted);font-size:.9rem}}
 </style></head><body>
 <h1>Sign in as</h1>
 <p>Signed in as {signed_in_as}. Choose the test user to continue as.</p>
