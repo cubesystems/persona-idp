@@ -18,6 +18,9 @@ Pushes and pull requests run formatting, lint, tests, `cargo audit` and a contai
 | --- | --- |
 | Branch `master` | `master` |
 | Branch `feature/example` | `feature-example` |
-| Tag `v1.0.1` | `v1.0.1` |
+| Tag `v1.1.0` | `v1.1.0` |
 
 Only branch and Git tag names are published. Tags starting with `v` must match `version` in `Cargo.toml`.
+
+Before tagging a release, update the package version in `Cargo.toml` and `Cargo.lock`,
+and the image tag in the README example. Commit those changes before creating the release tag.

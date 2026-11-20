@@ -22,7 +22,7 @@ docker run --rm -p 8080:8080 \
   -e PERSONA_IDP_NO_UPSTREAM=true \
   -e PERSONA_IDP_PERSONAS_FILE=/run/config/personas.json \
   -v "$PWD/personas.example.json:/run/config/personas.json:ro" \
-  cubesystems/persona-idp:v1.0.1
+  cubesystems/persona-idp:v1.1.0
 ```
 
 Tags are listed in [RELEASING.md](RELEASING.md).
