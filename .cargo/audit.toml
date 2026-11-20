@@ -4,6 +4,10 @@ ignore = [
   # rsa 0.9.10: Marvin timing attack; openidconnect 4.1.0 requires rsa ^0.9.2.
   # Remove when openidconnect accepts the fixed rsa >=0.10.0.
   "RUSTSEC-2023-0071",
+  # chrono is unmaintained with no patched release; openidconnect 4.1.0 and
+  # oauth2 5.0.0 require it, and our token claims use its DateTime API.
+  # Remove when upstream and this project have migrated off chrono.
+  "RUSTSEC-2026-0543",
 ]
 
 [output]
